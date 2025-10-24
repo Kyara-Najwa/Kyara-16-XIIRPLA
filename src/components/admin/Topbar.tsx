@@ -36,7 +36,6 @@ export default function Topbar({ onOpenMenu }: { onOpenMenu?: () => void }) {
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('admin-search', { detail: q }));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   const handleSearchChange = (value: string) => {
