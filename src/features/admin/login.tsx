@@ -14,8 +14,8 @@ export default function Login() {
   // Force styling after autofill
   useEffect(() => {
     const forceStyling = () => {
-      const inputs = document.querySelectorAll('input[type="email"], input[type="password"]');
-      inputs.forEach((input: any) => {
+      const inputs = document.querySelectorAll<HTMLInputElement>('input[type="email"], input[type="password"]');
+      inputs.forEach((input) => {
         input.style.setProperty('background-color', 'transparent', 'important');
         input.style.setProperty('color', '#d1d5db', 'important');
         input.style.setProperty('-webkit-box-shadow', '0 0 0 1000px transparent inset', 'important');
@@ -30,14 +30,14 @@ export default function Login() {
     setTimeout(forceStyling, 1000);
 
     // Also run on input events
-    const inputs = document.querySelectorAll('input[type="email"], input[type="password"]');
-    inputs.forEach(input => {
+    const inputs = document.querySelectorAll<HTMLInputElement>('input[type="email"], input[type="password"]');
+    inputs.forEach((input) => {
       input.addEventListener('input', forceStyling);
       input.addEventListener('change', forceStyling);
     });
 
     return () => {
-      inputs.forEach(input => {
+      inputs.forEach((input) => {
         input.removeEventListener('input', forceStyling);
         input.removeEventListener('change', forceStyling);
       });

@@ -40,7 +40,14 @@ export default function About() {
           },
         });
         if (!r.ok) throw new Error(`REST fetch failed: ${r.status}`);
-        const rows = (await r.json()) as any[];
+        const rows = (await r.json()) as Array<{
+          display_name?: string;
+          avatar_url?: string;
+          city_name?: string;
+          city_image_url?: string;
+          bio?: string;
+          profession?: string;
+        }>;
         const row = rows?.[0] || {};
         setProfile({
           display_name: row.display_name || "",
@@ -50,8 +57,9 @@ export default function About() {
           bio: row.bio || "",
           profession: row.profession || "",
         });
-      } catch (e: any) {
-        setError(e?.message || "Failed to load profile");
+      } catch (e: unknown) {
+        const message = e instanceof Error ? e.message : "Failed to load profile";
+        setError(message);
         setProfile({ display_name: "", avatar_url: "", city_name: "", city_image_url: "", bio: "", profession: "" });
       } finally {
         setLoading(false);

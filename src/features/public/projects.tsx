@@ -26,10 +26,10 @@ export default function Projects() {
           headers: { apikey: apiKey, Authorization: `Bearer ${apiKey}` },
         });
         if (!pr.ok) throw new Error(`REST fetch failed: ${pr.status}`);
-        const rows = (await pr.json()) as any[];
-        setProjects(rows as Project[]);
+        const rows = (await pr.json()) as Project[];
+        setProjects(rows);
 
-        const uniqueOwners = Array.from(new Set(rows.map((r: any) => r.owner).filter(Boolean)));
+        const uniqueOwners = Array.from(new Set(rows.map((r) => r.owner).filter(Boolean)));
         if (uniqueOwners.length) {
           const csv = uniqueOwners.map((id) => `"${id}"`).join(',');
           const ownersUrl = `${base}/rest/v1/profiles?id=in.(${csv})&select=id,display_name`;
@@ -37,15 +37,16 @@ export default function Projects() {
             headers: { apikey: apiKey, Authorization: `Bearer ${apiKey}` },
           });
           if (!or.ok) throw new Error(`REST owners fetch failed: ${or.status}`);
-          const profs = (await or.json()) as any[];
+          const profs = (await or.json()) as Array<{ id: string; display_name?: string | null }>;
           const map: OwnerMap = {};
           for (const p of profs || []) map[p.id] = p.display_name || '';
           setOwners(map);
         } else {
           setOwners({});
         }
-      } catch (e: any) {
-        setError(e?.message || 'Failed to load projects');
+      } catch (e: unknown) {
+        const message = e instanceof Error ? e.message : 'Failed to load projects';
+        setError(message);
         setProjects([]);
         setOwners({});
       } finally {

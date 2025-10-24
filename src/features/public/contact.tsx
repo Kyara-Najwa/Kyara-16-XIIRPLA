@@ -40,7 +40,11 @@ export default function Contact() {
           cache: "no-store",
         });
         if (!r.ok) return;
-        const rows = (await r.json()) as any[];
+        const rows = (await r.json()) as Array<{
+          email_contact?: string | null;
+          number_contact?: string | null;
+          github_url?: string | null;
+        }>;
         const row = rows?.[0] || {};
         setOwner({
           email_contact: row.email_contact || null,
@@ -96,9 +100,10 @@ export default function Contact() {
 
       setForm({ name: "", email: "", message: "" });
       setToast({ type: "success", message: "Message sent successfully" });
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setToast({ type: "error", message: err?.message || "Failed to send message" });
+      const message = err instanceof Error ? err.message : "Failed to send message";
+      setToast({ type: "error", message });
     } finally {
       setLoading(false);
     }
@@ -123,7 +128,7 @@ export default function Contact() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <div className="space-y-3">
-                <div className="border-t border-white/15 pt-3 text-sm text-white/70">You don't like forms?</div>
+                <div className="border-t border-white/15 pt-3 text-sm text-white/70">You don&apos;t like forms?</div>
                 <p className="text-white/80 text-sm">Reach me directly using the channels below.</p>
                 <div className="flex flex-wrap gap-3">
                   {owner.email_contact ? (
@@ -154,7 +159,7 @@ export default function Contact() {
               </div>
               <div className="space-y-3">
                 <div className="border-t border-white/15 pt-3 text-sm text-white/70">Looking to do great work?</div>
-                <p className="text-white/80 text-sm">Tell me about your project and I'll get back soon.</p>
+                <p className="text-white/80 text-sm">Tell me about your project and I&apos;ll get back soon.</p>
               </div>
             </div>
           </div>

@@ -17,7 +17,13 @@ type Analytics = {
   totalViews: number;
   monthlyViews: number;
   topProjects: Project[];
-  recentActivity: any[];
+  recentActivity: Array<{
+    id: string;
+    action: string;
+    project: string;
+    time: string;
+    slug: string;
+  }>;
 };
 
 export default function Dashboard() {
@@ -195,7 +201,7 @@ export default function Dashboard() {
 
         {/* Current month projects only */}
         <div className="bg-black border border-white/10 rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-white mb-4">This Month's Projects</h3>
+          <h3 className="text-lg font-semibold text-white mb-4">This Month&apos;s Projects</h3>
           <div className="h-64 bg-white/5 rounded-lg overflow-y-auto scrollbar-hide p-4 space-y-3">
             {monthlyProjects.length === 0 ? (
               <div className="h-full flex items-center justify-center text-gray-400">No projects this month</div>

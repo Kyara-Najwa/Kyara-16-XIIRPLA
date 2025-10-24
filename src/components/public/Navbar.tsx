@@ -28,7 +28,7 @@ export function Navbar() {
           cache: 'no-store',
         });
         if (!r.ok) return;
-        const rows = (await r.json()) as any[];
+        const rows = (await r.json()) as Array<{ display_name?: string | null }>;
         const name = rows?.[0]?.display_name;
         if (name) setBrand(String(name));
       } catch {}

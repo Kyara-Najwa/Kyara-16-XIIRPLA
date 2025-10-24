@@ -179,9 +179,10 @@ export default function Profile() {
       setCityFile(null);
       fetchProfile();
       setToast({ type: 'success', message: 'Profile saved successfully' });
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setToast({ type: 'error', message: err?.message || 'Failed to save profile' });
+      const message = err instanceof Error ? err.message : 'Failed to save profile';
+      setToast({ type: 'error', message });
     } finally {
       setSaving(false);
     }
