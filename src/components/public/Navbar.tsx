@@ -46,11 +46,13 @@ export function Navbar() {
       }
     >
       <div className="max-w-6xl mx-auto px-5 py-5 md:py-6 flex items-center justify-between">
-        <a href="/home" className="font-bold tracking-wide text-lg md:text-xl">{brand}</a>
+        <a href="/" className="font-bold tracking-wide text-lg md:text-xl">{brand}</a>
         <div className="flex items-center gap-8 text-base md:text-lg">
-          <a href="/home#about" className="hover:underline">About</a>
-          <a href="/home#projects" className="hover:underline">Projects</a>
-          <a href="/home#contact" className="hover:underline">Contact</a>
+          <a href="/#about" className="hover:underline">About</a>
+          <a href="/#projects" className="hover:underline">Projects</a>
+          <a href="/#gallery" className="hover:underline">Gallery</a>
+          <a href="/#contact" className="hover:underline">Contact</a>
+          <a href="/admin" className="hover:underline">Admin</a>
         </div>
       </div>
     </nav>

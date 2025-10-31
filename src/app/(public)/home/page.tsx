@@ -1,7 +1,7 @@
-import Home from "../../../features/public/home";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
 export default function Page() {
-  return <Home />;
+  redirect("/");
 }

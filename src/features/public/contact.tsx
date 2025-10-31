@@ -119,7 +119,6 @@ export default function Contact() {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          {/* Left big message + info */}
           <div className="space-y-8">
             <div className="leading-[0.9] select-none">
               <div className="text-[56px] sm:text-[80px] md:text-[112px] lg:text-[132px] font-semibold tracking-tight">just</div>
@@ -164,7 +163,6 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Right form */}
           <form onSubmit={onSubmit} className="space-y-5">
             <div>
               <label className="block text-sm text-gray-300 mb-1">Full Name</label>

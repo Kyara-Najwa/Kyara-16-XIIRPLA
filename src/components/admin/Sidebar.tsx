@@ -3,13 +3,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabaseClient";
-import { X } from "lucide-react";
+import { X, Image as ImageIcon } from "lucide-react";
 import { HomeIcon, FolderIcon, UserIcon, LogoutIcon } from "../icons";
 
 const nav = [
   { href: "/admin", label: "Dashboard", icon: HomeIcon },
   { href: "/admin/projects", label: "Projects", icon: FolderIcon },
   { href: "/admin/profile", label: "Profile", icon: UserIcon },
+  { href: "/admin/gallery", label: "Gallery", icon: ImageIcon },
   { href: "/home", label: "User", icon: LogoutIcon },
 ];
 
@@ -21,7 +22,6 @@ export default function Sidebar({ variant = 'desktop', onClose }: { variant?: 'd
     const getUserData = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user?.email) {
-        // Extract first letter from email
         const initial = user.email.charAt(0).toUpperCase();
         setUserInitial(initial);
       }

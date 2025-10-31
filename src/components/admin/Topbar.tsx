@@ -21,7 +21,6 @@ export default function Topbar({ onOpenMenu }: { onOpenMenu?: () => void }) {
     const getUserData = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user?.email) {
-        // Extract first letter from email
         const initial = user.email.charAt(0).toUpperCase();
         setUserInitial(initial);
       }
@@ -29,7 +28,6 @@ export default function Topbar({ onOpenMenu }: { onOpenMenu?: () => void }) {
     getUserData();
   }, []);
 
-  // Initialize search from URL and notify listeners
   useEffect(() => {
     const q = searchParams?.get('q') || '';
     setSearchQuery(q);
@@ -43,7 +41,6 @@ export default function Topbar({ onOpenMenu }: { onOpenMenu?: () => void }) {
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('admin-search', { detail: value }));
     }
-    // sync param without navigation
     const params = new URLSearchParams(Array.from(searchParams?.entries?.() || []));
     if (value) params.set('q', value); else params.delete('q');
     router.replace(`${pathname}${params.toString() ? `?${params.toString()}` : ''}`);

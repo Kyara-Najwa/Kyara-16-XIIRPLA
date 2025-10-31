@@ -31,7 +31,6 @@ export default function Projects() {
   const [tagsInput, setTagsInput] = useState('');
   const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
-  // Fetch projects
   const fetchProjects = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -62,7 +61,6 @@ export default function Projects() {
     return () => clearTimeout(t);
   }, [toast]);
 
-  // Sync search from URL and global events
   useEffect(() => {
     const q = searchParams?.get('q') || '';
     setSearchQuery(q);
@@ -91,7 +89,6 @@ export default function Projects() {
   };
   const visibleProjects = projects.filter(matches);
 
-  // Generate slug from title
   const generateSlug = (title: string): string => {
     return title
       .toLowerCase()
@@ -101,7 +98,6 @@ export default function Projects() {
       .replace(/^-+|-+$/g, '');
   };
 
-  // Check if bucket exists
   const checkBucketExists = async (bucketName: string): Promise<boolean> => {
     try {
       const { data: buckets, error: listError } = await supabase.storage.listBuckets();
@@ -125,14 +121,12 @@ export default function Projects() {
     }
   };
 
-  // Upload image to Supabase Storage
   const uploadImage = async (file: File): Promise<string | null> => {
     try {
       const fileExt = file.name.split('.').pop();
       const fileName = `${Date.now()}.${fileExt}`;
       const filePath = `projects/${fileName}`;
 
-      // Coba upload langsung ke project-images bucket
       console.log('Attempting upload to project-images bucket...');
       const { error: uploadError } = await supabase.storage
         .from('project-images')
@@ -145,7 +139,6 @@ export default function Projects() {
           name: uploadError.name
         });
         
-        // Coba fallback ke bucket image
         console.log('Trying fallback to image bucket...');
         const { error: fallbackError } = await supabase.storage
           .from('image')
@@ -177,7 +170,6 @@ export default function Projects() {
     }
   };
 
-  // Create project
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     setUploading(true);
@@ -188,13 +180,11 @@ export default function Projects() {
 
       let coverUrl = formData.cover_url;
       
-      // Upload image if file is selected
       if (imageFile) {
         const uploadedUrl = await uploadImage(imageFile);
         if (uploadedUrl) {
           coverUrl = uploadedUrl;
         } else {
-          // Jika upload gagal, tetap lanjutkan tanpa gambar
           console.warn('Image upload failed, continuing without image');
           setToast({ type: 'error', message: 'Image upload failed. Please check your Storage bucket or use image URL.' });
         }
@@ -228,7 +218,6 @@ export default function Projects() {
     }
   };
 
-  // Update project
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingProject) return;
@@ -237,13 +226,11 @@ export default function Projects() {
     try {
       let coverUrl = formData.cover_url;
       
-      // Upload image if file is selected
       if (imageFile) {
         const uploadedUrl = await uploadImage(imageFile);
         if (uploadedUrl) {
           coverUrl = uploadedUrl;
         } else {
-          // Jika upload gagal, tetap lanjutkan tanpa gambar
           console.warn('Image upload failed, continuing without image');
           alert('Image upload failed. Please check your Supabase Storage buckets or use image URL instead.');
         }
@@ -278,7 +265,6 @@ export default function Projects() {
     }
   };
 
-  // Delete project
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this project?')) return;
 
@@ -297,7 +283,6 @@ export default function Projects() {
     }
   };
 
-  // Edit project
   const handleEdit = (project: Project) => {
     setEditingProject(project);
     setFormData({
@@ -314,11 +299,10 @@ export default function Projects() {
     setTagsInput(project.tags.join(', '));
     setImagePreview(project.cover_url || '');
     setImageFile(null);
-    setSlugManuallyEdited(false); // Set to false agar bisa auto-generate saat edit title
+    setSlugManuallyEdited(false);
     setShowModal(true);
   };
 
-  // Reset form
   const resetForm = () => {
     setFormData({
       title: '',
@@ -337,7 +321,6 @@ export default function Projects() {
     setTagsInput('');
   };
 
-  // Handle image file selection
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -350,14 +333,12 @@ export default function Projects() {
     }
   };
 
-  // Remove selected image
   const removeImage = () => {
     setImageFile(null);
     setImagePreview('');
     setFormData(prev => ({ ...prev, cover_url: '' }));
   };
 
-  // Handle tags input
   const handleTagsChange = (value: string) => {
     setTagsInput(value);
     const tags = value
@@ -401,7 +382,7 @@ export default function Projects() {
         </button>
       </div>
 
-      {/* Projects List - Mobile (cards) */}
+      
       <div className="sm:hidden space-y-4">
         {visibleProjects.map((project) => (
           <div key={project.id} className="bg-white/5 border border-white/10 rounded-xl p-4">
@@ -446,7 +427,7 @@ export default function Projects() {
         ))}
       </div>
 
-      {/* Projects Table - Desktop/Tablet */}
+      
       <div className="hidden sm:block bg-white/5 border border-white/10 rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
           <table className="min-w-full">
@@ -560,7 +541,7 @@ export default function Projects() {
         </div>
       </div>
 
-      {/* Modal */}
+      
       {showModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-black/90 border border-white/20 rounded-2xl p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl scrollbar-hide">
@@ -660,7 +641,7 @@ export default function Projects() {
                   Project Image
                 </label>
                 
-                {/* Image Preview */}
+                
                 {imagePreview && (
                   <div className="mb-6 relative inline-block">
                     <img
@@ -678,7 +659,7 @@ export default function Projects() {
                   </div>
                 )}
 
-                {/* Upload Button */}
+                
                 <div className="space-y-4">
                   <label className="flex items-center gap-3 bg-white/10 border border-white/20 px-6 py-4 rounded-xl hover:bg-white/20 transition-all cursor-pointer group">
                     <Upload className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />

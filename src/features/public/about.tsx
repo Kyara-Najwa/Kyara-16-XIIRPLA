@@ -80,9 +80,9 @@ export default function About() {
 
   return (
     <section className="relative text-white" onMouseMove={onMove}>
-      <div className="max-w-6xl mx-auto px-5">
-        <div className="flex items-center justify-center min-h-[calc(100vh-88px)]">
-          <div className="w-full max-w-4xl">
+      <div className="max-w-6xl mx-auto px-5 scroll-mt-24">
+        <div className="min-h-[calc(100svh-96px)] grid place-content-center">
+          <div className="w-full max-w-4xl mt-24 md:mt-40">
             {error ? (
               <div className="text-red-400">{error}</div>
             ) : loading ? (

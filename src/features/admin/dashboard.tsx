@@ -43,20 +43,17 @@ export default function Dashboard() {
       setLoading(true);
       
       try {
-        // Fetch projects data
         const { data: projects, error: projectsError } = await supabase
           .from("projects")
-          .select("id, title, slug, published, created_at, cover_url")
+          .select("id, title, slug, published, created_at, cover_url") 
           .order("created_at", { ascending: false });
 
         if (projectsError) throw projectsError;
 
-        // Calculate metrics
         const totalProjects = projects?.length || 0;
         const publishedProjects = projects?.filter(p => p.published).length || 0;
         const draftProjects = totalProjects - publishedProjects;
         
-        // Generate recent activity from projects data
         const recentActivity = projects?.slice(0, 5).map(project => ({
           id: project.id,
           action: project.published ? "Project published" : "Project created",
@@ -83,7 +80,6 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
-  // Auto slideshow index
   useEffect(() => {
     const withCovers = (analytics.topProjects || []).filter(p => p.cover_url);
     if (withCovers.length === 0) return;
@@ -93,7 +89,6 @@ export default function Dashboard() {
     return () => clearInterval(timer);
   }, [analytics.topProjects]);
 
-  // Sync search from URL and global events
   useEffect(() => {
     const q = searchParams?.get('q') || '';
     setSearchQuery(q);
@@ -122,7 +117,6 @@ export default function Dashboard() {
     return { ...analytics, topProjects, recentActivity } as Analytics;
   }, [analytics, searchQuery]);
 
-  // Current month projects (for right card)
   const monthlyProjects = useMemo(() => {
     const now = new Date();
     const m = now.getMonth();
@@ -144,7 +138,7 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
-      {/* Metrics Cards */}
+      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <MetricCard 
           title="Total Projects" 
@@ -168,9 +162,9 @@ export default function Dashboard() {
         />
       </div>
 
-      {/* Charts Section */}
+      
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Auto slideshow of project covers */}
+        
         <div className="bg-black border border-white/10 rounded-xl p-6">
           <h3 className="text-lg font-semibold text-white mb-4">Project Showcase</h3>
           <div className="h-64 bg-white/5 rounded-lg overflow-hidden relative flex items-center justify-center">
@@ -199,7 +193,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Current month projects only */}
+        
         <div className="bg-black border border-white/10 rounded-xl p-6">
           <h3 className="text-lg font-semibold text-white mb-4">This Month&apos;s Projects</h3>
           <div className="h-64 bg-white/5 rounded-lg overflow-y-auto scrollbar-hide p-4 space-y-3">
@@ -222,7 +216,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Data Tables */}
+      
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-black border border-white/10 rounded-xl overflow-hidden">
           <div className="flex items-center px-6 py-4 border-b border-white/10">

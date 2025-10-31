@@ -11,7 +11,6 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Force styling after autofill
   useEffect(() => {
     const forceStyling = () => {
       const inputs = document.querySelectorAll<HTMLInputElement>('input[type="email"], input[type="password"]');
@@ -113,7 +112,6 @@ export default function Login() {
         maxTwinkleSpeed={1.5}
       />
       
-      {/* Back Button */}
       <button 
         onClick={() => router.back()}
         className="absolute top-6 left-6 text-white/60 hover:text-white transition-colors z-20"
@@ -122,7 +120,6 @@ export default function Login() {
       </button>
 
       <div className="w-full max-w-md rounded-3xl border border-white/20 bg-black/20 backdrop-blur-md p-8 shadow-2xl relative z-10">
-        {/* Header Section */}
         <div className="flex flex-col items-center mb-8">
           <div className="w-16 h-16 rounded-full border border-white/30 bg-white/10 mb-6 flex items-center justify-center">
             <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
@@ -135,7 +132,6 @@ export default function Login() {
           </p>
         </div>
 
-        {/* Form */}
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
             <input
@@ -181,7 +177,6 @@ export default function Login() {
           </button>
         </form>
 
-        {/* Footer */}
         <div className="mt-8 text-xs text-white/50 text-center">
           Secure access to portfolio management system
         </div>

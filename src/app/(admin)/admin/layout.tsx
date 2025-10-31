@@ -13,7 +13,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    // Allow login route without guard
     if (pathname === "/admin/login") {
       setAllowed(true);
       return;
@@ -68,9 +67,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return () => {
       subscription.unsubscribe();
     };
-  // run only once on mount; `pathname` is read at mount and we only special-case /admin/login
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [pathname]);
 
   if (allowed === null) {
     return (
@@ -97,7 +94,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Mobile drawer */}
       {mobileOpen && (
         <div className="md:hidden">
           <div

@@ -11,7 +11,7 @@ export default function PublicLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
+    <div className="relative min-h-screen bg-black text-white overflow-x-hidden overflow-y-scroll scrollbar-hide">
       <StarsBackground className="opacity-60 pointer-events-none -z-10" />
       <Navbar />
       <div style={{ zoom: 0.9 }}>
