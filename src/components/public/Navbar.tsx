@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [brand, setBrand] = useState<string>("Portfolio");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -36,6 +37,11 @@ export function Navbar() {
     loadName();
   }, []);
 
+  // Close mobile menu when clicking a link
+  const handleLinkClick = () => {
+    setMobileMenuOpen(false);
+  };
+
   return (
     <nav
       className={
@@ -47,12 +53,52 @@ export function Navbar() {
     >
       <div className="max-w-6xl mx-auto px-5 py-5 md:py-6 flex items-center justify-between">
         <a href="/" className="font-bold tracking-wide text-lg md:text-xl">{brand}</a>
-        <div className="flex items-center gap-8 text-base md:text-lg">
+        
+        {/* Desktop Menu */}
+        <div className="hidden md:flex items-center gap-8 text-base md:text-lg">
           <a href="/#about" className="hover:underline">About</a>
           <a href="/#projects" className="hover:underline">Projects</a>
           <a href="/#gallery" className="hover:underline">Gallery</a>
           <a href="/#contact" className="hover:underline">Contact</a>
           <a href="/admin" className="hover:underline">Admin</a>
+        </div>
+
+        {/* Hamburger Button */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="md:hidden flex flex-col gap-1.5 w-6 h-6 justify-center"
+          aria-label="Toggle menu"
+        >
+          <span
+            className={`block h-0.5 w-full bg-white transition-all duration-300 ${
+              mobileMenuOpen ? "rotate-45 translate-y-2" : ""
+            }`}
+          ></span>
+          <span
+            className={`block h-0.5 w-full bg-white transition-all duration-300 ${
+              mobileMenuOpen ? "opacity-0" : ""
+            }`}
+          ></span>
+          <span
+            className={`block h-0.5 w-full bg-white transition-all duration-300 ${
+              mobileMenuOpen ? "-rotate-45 -translate-y-2" : ""
+            }`}
+          ></span>
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      <div
+        className={`md:hidden overflow-hidden transition-all duration-300 ${
+          mobileMenuOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="px-5 pb-5 flex flex-col gap-4 text-base border-t border-white/10">
+          <a href="/#about" onClick={handleLinkClick} className="hover:underline pt-4">About</a>
+          <a href="/#projects" onClick={handleLinkClick} className="hover:underline">Projects</a>
+          <a href="/#gallery" onClick={handleLinkClick} className="hover:underline">Gallery</a>
+          <a href="/#contact" onClick={handleLinkClick} className="hover:underline">Contact</a>
+          <a href="/admin" onClick={handleLinkClick} className="hover:underline">Admin</a>
         </div>
       </div>
     </nav>
